@@ -48,14 +48,13 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({ isOpen
   const handleStartListening = () => {
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     if (!SpeechRecognition) {
-      // Fallback if browser doesn't support WebSpeech API
-      setIsListening(true);
-      setTimeout(() => {
-        setIsListening(false);
-        const sampleQuery = "Evaluate career roadmap after MPC stream with data science interest";
-        setInput(sampleQuery);
-        handleSend(sampleQuery);
-      }, 2500);
+      setMessages((prev) => [
+        ...prev,
+        {
+          sender: 'twin',
+          text: "Microphone speech recognition is not supported in this browser window. Please type your query in the text box below!"
+        }
+      ]);
       return;
     }
 

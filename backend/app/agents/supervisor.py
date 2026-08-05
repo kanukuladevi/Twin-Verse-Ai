@@ -97,70 +97,170 @@ class SupervisorOrchestrator:
 
     def _generate_domain_options(self, domain: str, query: str, profile: dict, answers: dict, success_prob: float) -> tuple:
         domain = domain.lower()
+        q_lower = query.lower()
 
-        if "edu" in domain:
-            options = [
-                {
-                    "id": "opt_1",
-                    "title": "MPC Stream → B.Tech Data Science / AI Engineering",
-                    "description": "High demand, strong analytical alignment. Direct path to Software / Data roles.",
-                    "score": round(success_prob + 4.0, 1),
-                    "cost_level": "Medium",
-                    "difficulty": "Moderate",
-                    "benefit": "High (12-25 LPA potential)",
-                    "fit_to_goal": 94.0,
-                    "risks": ["High entrance exam competition (JEE/EAMCET)", "Requires solid math foundation"],
-                    "pros": ["Highest job opening volume", "Global career mobility"],
-                    "cons": ["Intense curriculum workload"]
-                },
-                {
-                    "id": "opt_2",
-                    "title": "MEC / B.Com → CA / Financial Analyst",
-                    "description": "Focus on finance, accounting, and business analytics with strong market stability.",
-                    "score": round(success_prob - 2.5, 1),
-                    "cost_level": "Low to Medium",
-                    "difficulty": "High (CA Exams)",
-                    "benefit": "High (8-20 LPA)",
-                    "fit_to_goal": 88.0,
-                    "risks": ["Rigorous multi-stage professional exams"],
-                    "pros": ["Excellent prestige and independence"],
-                    "cons": ["Long study duration"]
-                },
-                {
-                    "id": "opt_3",
-                    "title": "Diploma (Polytechnic) → Lateral B.Tech Entry",
-                    "description": "Practical hands-on technical training with direct pathway into engineering.",
-                    "score": round(success_prob - 6.0, 1),
-                    "cost_level": "Low",
-                    "difficulty": "Low to Moderate",
-                    "benefit": "Moderate (4-8 LPA initial)",
-                    "fit_to_goal": 82.0,
-                    "risks": ["Slightly lower initial salary ceiling than direct B.Tech"],
-                    "pros": ["Lower tuition cost", "Early practical technical skills"],
-                    "cons": ["Additional year step required"]
-                }
-            ]
-            top_rec = "Option 1: MPC Stream → B.Tech Data Science / AI Engineering is your optimal career roadmap."
-            timeline = [
-                {"phase": "Class 10", "action": "Focus on Math & Science fundamentals; choose MPC stream."},
-                {"phase": "Intermediate (11-12th)", "action": "Prepare for EAMCET & JEE Main; learn Python basics."},
-                {"phase": "College Year 1-2", "action": "Build Core CS fundamentals, Data Structures & SQL."},
-                {"phase": "College Year 3", "action": "Complete Machine Learning internships & real-world projects."},
-                {"phase": "Final Year & Placement", "action": "Campus interviews & AI / Data Analyst job offers."}
-            ]
+        if "edu" in domain or any(k in q_lower for k in ["study", "course", "stream", "college", "school", "teacher", "doctor", "bipc", "mpc", "career", "job", "biology", "degree"]):
+            if any(k in q_lower for k in ["doctor", "mbbs", "medical", "medicine", "neet"]):
+                options = [
+                    {
+                        "id": "opt_1",
+                        "title": "BiPC Stream → NEET UG → MBBS / Medical Sciences",
+                        "description": "Target Biology, Physics & Chemistry in +2 for top medical college entrance (NEET).",
+                        "score": round(success_prob + 5.0, 1),
+                        "cost_level": "High",
+                        "difficulty": "Very High (NEET Exam)",
+                        "benefit": "Highest Prestige & High Earning Potential",
+                        "fit_to_goal": 96.0,
+                        "risks": ["Intense competitive entrance exam (NEET)", "Long duration (5.5 yrs + PG)"],
+                        "pros": ["High societal respect", "Lifelong job security & independent practice"],
+                        "cons": ["Heavy study workload"]
+                    },
+                    {
+                        "id": "opt_2",
+                        "title": "B.Sc Allied Health / Pharmacy (B.Pharm) / BDS",
+                        "description": "Alternative medical pathways in dental, pharmaceutical, or clinical diagnostic sciences.",
+                        "score": round(success_prob - 2.0, 1),
+                        "cost_level": "Medium",
+                        "difficulty": "Moderate to High",
+                        "benefit": "High (6-15 LPA)",
+                        "fit_to_goal": 88.0,
+                        "risks": ["Slightly lower starting scale than MBBS"],
+                        "pros": ["Shorter duration", "Growing pharmaceutical and hospital industry demand"],
+                        "cons": ["Specialized scope"]
+                    }
+                ]
+                top_rec = "Option 1: BiPC Stream → NEET UG Prep → MBBS Medical Degree is your optimal roadmap to become a Doctor."
+                timeline = [
+                    {"phase": "Class 10 Pass", "action": "Enroll in BiPC (Biology, Physics, Chemistry) stream in Intermediate / 11th."},
+                    {"phase": "Inter 11th-12th", "action": "Focus on NCERT Biology & Physics; prepare for NEET UG entrance exam."},
+                    {"phase": "Entrance Exam", "action": "Score top percentile in NEET for Government Medical College seat."},
+                    {"phase": "MBBS Degree (5.5 yrs)", "action": "Complete medical clinical rotations & 1-year internship."},
+                    {"phase": "Specialization (MD/MS)", "action": "Pursue MD/MS or start medical practice as a certified Doctor."}
+                ]
+            elif any(k in q_lower for k in ["teacher", "teaching", "biology teacher", "b.ed", "lecturer", "professor"]):
+                options = [
+                    {
+                        "id": "opt_1",
+                        "title": "BiPC Stream → B.Sc Biological Sciences → B.Ed Certification",
+                        "description": "Choose BiPC in 11th-12th, earn a B.Sc in Botany/Zoology, followed by B.Ed for school/college teaching.",
+                        "score": round(success_prob + 4.0, 1),
+                        "cost_level": "Low to Medium",
+                        "difficulty": "Moderate",
+                        "benefit": "High Job Security & Work-Life Balance",
+                        "fit_to_goal": 95.0,
+                        "risks": ["Requires clearing state/national Teacher Eligibility Test (TET/CTET)"],
+                        "pros": ["Excellent work-life balance", "High demand in schools & coaching institutes", "Government & private opportunities"],
+                        "cons": ["Moderate initial starting salary"]
+                    },
+                    {
+                        "id": "opt_2",
+                        "title": "Integrated B.Sc-B.Ed / M.Sc Biology → CSIR NET (Professor Track)",
+                        "description": "Direct 4-year integrated teaching degree or Higher Education Lecturer pathway.",
+                        "score": round(success_prob - 1.5, 1),
+                        "cost_level": "Medium",
+                        "difficulty": "High for NET",
+                        "benefit": "High (Degree College Lecturer / University Professor)",
+                        "fit_to_goal": 90.0,
+                        "risks": ["Competitive NET exam for Assistant Professorship"],
+                        "pros": ["Higher salary scale & academic research status"],
+                        "cons": ["Requires Master's (M.Sc) degree"]
+                    }
+                ]
+                top_rec = "Option 1: BiPC Stream → B.Sc Biological Sciences → B.Ed Certification is your optimal roadmap to become a Biology Teacher."
+                timeline = [
+                    {"phase": "Class 10 Pass", "action": "Select BiPC (Biology, Physics, Chemistry) in Intermediate / 10+2."},
+                    {"phase": "Undergraduation", "action": "Enroll in B.Sc Botany / Zoology / Biotechnology / Biological Sciences."},
+                    {"phase": "Teacher Training", "action": "Complete B.Ed (Bachelor of Education) degree program (2 years)."},
+                    {"phase": "Eligibility Exam", "action": "Pass CTET / State TET (Teacher Eligibility Test)."},
+                    {"phase": "Career Placement", "action": "Apply for TGT/PGT Biology Teacher posts in reputed schools or Junior Colleges."}
+                ]
+            elif any(k in q_lower for k in ["ca", "chartered accountant", "finance", "accounting", "commerce", "mec", "cec"]):
+                options = [
+                    {
+                        "id": "opt_1",
+                        "title": "MEC / CEC Stream → CA Foundation → B.Com / CA Inter & Final",
+                        "description": "Direct commerce track targeting Chartered Accountancy and financial auditing.",
+                        "score": round(success_prob + 3.5, 1),
+                        "cost_level": "Low",
+                        "difficulty": "High",
+                        "benefit": "High (8-25 LPA)",
+                        "fit_to_goal": 93.0,
+                        "risks": ["Challenging multi-tier CA exams"],
+                        "pros": ["Prestigious qualification", "High independent practice value"],
+                        "cons": ["Requires long study hours"]
+                    }
+                ]
+                top_rec = "Option 1: MEC Stream → CA Foundation → B.Com & CA Final is your optimal financial career roadmap."
+                timeline = [
+                    {"phase": "Class 10 Pass", "action": "Choose MEC (Maths, Economics, Commerce) stream."},
+                    {"phase": "Inter 12th", "action": "Register for CA Foundation Exam with ICAI."},
+                    {"phase": "Graduation & CA Inter", "action": "Complete B.Com and pass CA Intermediate group exams."},
+                    {"phase": "Articleship (2 yrs)", "action": "Complete mandatory practical audit articleship training."},
+                    {"phase": "CA Final", "action": "Pass CA Final to qualify as a certified Chartered Accountant."}
+                ]
+            else:
+                options = [
+                    {
+                        "id": "opt_1",
+                        "title": "MPC Stream → B.Tech Computer Science / Data Science / AI Engineering",
+                        "description": "High demand, strong analytical alignment. Direct path to Software / Data / AI roles.",
+                        "score": round(success_prob + 4.0, 1),
+                        "cost_level": "Medium",
+                        "difficulty": "Moderate",
+                        "benefit": "High (12-25 LPA potential)",
+                        "fit_to_goal": 94.0,
+                        "risks": ["High entrance exam competition (JEE/EAMCET)", "Requires solid math foundation"],
+                        "pros": ["Highest job opening volume", "Global career mobility"],
+                        "cons": ["Intense curriculum workload"]
+                    },
+                    {
+                        "id": "opt_2",
+                        "title": "MEC / B.Com → CA / Financial Analyst",
+                        "description": "Focus on finance, accounting, and business analytics with strong market stability.",
+                        "score": round(success_prob - 2.5, 1),
+                        "cost_level": "Low to Medium",
+                        "difficulty": "High (CA Exams)",
+                        "benefit": "High (8-20 LPA)",
+                        "fit_to_goal": 88.0,
+                        "risks": ["Rigorous multi-stage professional exams"],
+                        "pros": ["Excellent prestige and independence"],
+                        "cons": ["Long study duration"]
+                    },
+                    {
+                        "id": "opt_3",
+                        "title": "Diploma (Polytechnic) → Lateral B.Tech Entry",
+                        "description": "Practical hands-on technical training with direct pathway into engineering.",
+                        "score": round(success_prob - 6.0, 1),
+                        "cost_level": "Low",
+                        "difficulty": "Low to Moderate",
+                        "benefit": "Moderate (4-8 LPA initial)",
+                        "fit_to_goal": 82.0,
+                        "risks": ["Slightly lower initial salary ceiling than direct B.Tech"],
+                        "pros": ["Lower tuition cost", "Early practical technical skills"],
+                        "cons": ["Additional year step required"]
+                    }
+                ]
+                top_rec = f"Option 1: Customized Academic Stream tailored for '{query}' is your optimal career roadmap."
+                timeline = [
+                    {"phase": "Class 10 / Current", "action": f"Focus on foundational subjects relevant to '{query}'."},
+                    {"phase": "Intermediate (11-12th)", "action": "Select matching stream (MPC / BiPC / MEC) and prepare for entrance exams."},
+                    {"phase": "Degree College", "action": "Enroll in specialized bachelor degree program."},
+                    {"phase": "Skill Building", "action": "Complete practical internships and industry certifications."},
+                    {"phase": "Career Placement", "action": "Apply for specialized job roles matching your target career."}
+                ]
 
         elif "health" in domain:
             options = [
                 {
                     "id": "opt_1",
-                    "title": "Hydration, Rest & OTC Symptom Relief + 48hr Monitoring",
-                    "description": "Conservative self-care protocol supported by continuous vital tracking.",
+                    "title": f"Targeted Protocol for '{query[:40]}': Hydration, Rest & Vital Monitoring",
+                    "description": "Self-care and vital monitoring protocol tailored to your query.",
                     "score": 91.5,
                     "cost_level": "Very Low",
                     "difficulty": "Easy",
-                    "benefit": "Fast recovery for mild stress/fatigue symptoms",
+                    "benefit": "Fast recovery & symptom relief",
                     "fit_to_goal": 95.0,
-                    "risks": ["Must escalate to doctor if fever > 101°F or pain worsens"],
+                    "risks": ["Escalate to physician if severe pain or high fever persists"],
                     "pros": ["Non-invasive", "Zero medical downtime"],
                     "cons": ["Requires self-discipline on sleep & water intake"]
                 },
@@ -178,108 +278,80 @@ class SupervisorOrchestrator:
                     "cons": ["Consultation fee"]
                 }
             ]
-            top_rec = "Option 1: Follow Hydration & Rest protocol while logging daily vitals. Consult a doctor if symptoms persist past 48 hours."
+            top_rec = f"Option 1: Follow tailored care protocol for '{query}' while tracking vitals. Consult a doctor if symptoms persist past 48h."
             timeline = [
-                {"phase": "Immediate (Day 1)", "action": "Drink 3L water, rest, and log blood pressure & temperature."},
-                {"phase": "Day 2 Review", "action": "Check AI Twin health trend log; evaluate symptom score change."},
-                {"phase": "Day 3 Action", "action": "If fully recovered continue healthy routine; else book doctor appointment."}
+                {"phase": "Immediate (Day 1)", "action": f"Address '{query}' with rest, proper hydration, and vital logging."},
+                {"phase": "Day 2 Review", "action": "Check AI Twin health trend log; evaluate symptom change."},
+                {"phase": "Day 3 Action", "action": "If recovered continue healthy routine; else book doctor appointment."}
             ]
 
         elif "biz" in domain:
             options = [
                 {
                     "id": "opt_1",
-                    "title": "Reorder Top-Selling Fast Stock + Run Weekend Bundle Promotion",
-                    "description": "Capitalize on high demand items while bundling slower inventory to maximize turnover.",
+                    "title": f"Business Execution Strategy for '{query[:40]}'",
+                    "description": "Targeted operational optimization and marketing execution.",
                     "score": 93.8,
                     "cost_level": "Moderate",
                     "difficulty": "Easy",
                     "benefit": "+18-24% Gross Revenue Boost",
                     "fit_to_goal": 96.0,
-                    "risks": ["Requires cash flow upfront for reordering"],
-                    "pros": ["Immediate revenue spike", "Clears slow moving inventory"],
-                    "cons": ["Slight margin discount on bundled items"]
-                },
-                {
-                    "id": "opt_2",
-                    "title": "Maintain Current Inventory & Increase Social Media Ads",
-                    "description": "Drive foot traffic/online visits using targeted ad campaigns.",
-                    "score": 84.2,
-                    "cost_level": "Low to High",
-                    "difficulty": "Moderate",
-                    "benefit": "Brand visibility boost",
-                    "fit_to_goal": 85.0,
-                    "risks": ["Risk of running out of popular items mid-weekend"],
-                    "pros": ["Attracts new customer profiles"],
-                    "cons": ["Ad spend risk without inventory readiness"]
+                    "risks": ["Requires execution tracking"],
+                    "pros": ["Immediate revenue & efficiency gain"],
+                    "cons": ["Requires initial focus"]
                 }
             ]
-            top_rec = "Option 1: Reorder fast-selling stock immediately and initiate weekend promotional bundle."
+            top_rec = f"Option 1: Execute optimized business strategy targeting '{query}' immediately."
             timeline = [
-                {"phase": "Today (Morning)", "action": "Place purchase order for top 2 fast-selling SKUs."},
-                {"phase": "Today (Evening)", "action": "Setup 10% discount promo bundle on slow-moving inventory."},
-                {"phase": "Weekend Execution", "action": "Increase staffing by 1 extra employee for peak hours."},
-                {"phase": "Monday Audit", "action": "Review AI Twin sales report & profit margin breakdown."}
+                {"phase": "Phase 1", "action": f"Implement inventory & marketing workflow for '{query}'."},
+                {"phase": "Phase 2", "action": "Launch promo push & track lead conversion rates."},
+                {"phase": "Phase 3", "action": "Review profit metrics & scale successful channels."}
             ]
 
         elif "content" in domain:
             options = [
                 {
                     "id": "opt_1",
-                    "title": "Publish Trending AI Tutorial Reel at Peak Active Hour (7:00 PM)",
-                    "description": "High engagement probability. Capitalize on viral tech trend with strong hook.",
+                    "title": f"Viral Short-Form Script & Hook Plan for '{query[:40]}'",
+                    "description": "High engagement script structure with strong viral hook.",
                     "score": 92.4,
                     "cost_level": "Zero",
                     "difficulty": "Moderate",
-                    "benefit": "High reach (+15k-30k views estimated)",
+                    "benefit": "Estimated +15k-30k organic views",
                     "fit_to_goal": 95.0,
-                    "risks": ["Requires posting precisely on schedule"],
-                    "pros": ["High save and share rate", "Attracts tech-savvy followers"],
-                    "cons": ["Requires 30 mins script preparation"]
-                },
-                {
-                    "id": "opt_2",
-                    "title": "Publish General Lifestyle Story & Carousel Post",
-                    "description": "Nurture existing community with personal story and interactive Q&A poll.",
-                    "score": 83.0,
-                    "cost_level": "Zero",
-                    "difficulty": "Easy",
-                    "benefit": "High comment response rate",
-                    "fit_to_goal": 86.0,
-                    "risks": ["Lower viral discovery than short video reels"],
-                    "pros": ["Quick to produce"],
-                    "cons": ["Lower new follower growth"]
+                    "risks": ["Requires posting at peak audience hours"],
+                    "pros": ["High save and share rate"],
+                    "cons": ["Requires script rehearsal"]
                 }
             ]
-            top_rec = "Option 1: Post the Educational AI Tutorial Reel at 7:00 PM using recommended trending audio."
+            top_rec = f"Option 1: Publish the viral content script for '{query}' during peak engagement hours."
             timeline = [
-                {"phase": "Step 1 (Script)", "action": "Use AI Twin Script Writer for 15-second hook & clear Call-To-Action."},
-                {"phase": "Step 2 (Edit & Caption)", "action": "Generate high-converting hashtags and caption tone."},
-                {"phase": "Step 3 (Publish)", "action": "Schedule or post at 7:00 PM peak follower activity time."},
-                {"phase": "Step 4 (Engage)", "action": "Reply to first 10 comments within 30 minutes to boost algorithm rank."}
+                {"phase": "Hook & Script", "action": f"Draft 15-second hook addressing '{query}'."},
+                {"phase": "Record & Edit", "action": "Add dynamic captions and trending audio."},
+                {"phase": "Publish & Engage", "action": "Post at 7:00 PM and respond to top comments."}
             ]
 
         else: # personal / default
             options = [
                 {
                     "id": "opt_1",
-                    "title": "Time-Block High Priority Tasks in Evening Focus Window (7-9 PM)",
-                    "description": "Align deep work with user's natural peak cognitive hours.",
+                    "title": f"Focus Strategy for '{query[:40]}': Evening Time-Block (7-9 PM)",
+                    "description": f"Allocate dedicated high-cognitive focus time for '{query}'.",
                     "score": 90.0,
                     "cost_level": "Zero",
                     "difficulty": "Easy",
                     "benefit": "Maximum task completion speed",
                     "fit_to_goal": 94.0,
-                    "risks": ["Requires turning off phone notifications during 2hr block"],
+                    "risks": ["Requires turning off phone notifications during focus block"],
                     "pros": ["Builds consistent habit streak"],
-                    "cons": ["Requires evening discipline"]
+                    "cons": ["Requires discipline"]
                 }
             ]
-            top_rec = "Option 1: Time-block your core task between 7 PM and 9 PM tonight for maximum focus."
+            top_rec = f"Option 1: Time-block dedicated focus time for '{query}' during peak hours."
             timeline = [
-                {"phase": "Morning", "action": "Review daily brief & complete 2 quick low-effort tasks."},
-                {"phase": "Evening (7:00 PM)", "action": "Begin 2-hour distraction-free focus block."},
-                {"phase": "Night (9:30 PM)", "action": "Mark task complete; review habit streak on AI Twin."}
+                {"phase": "Preparation", "action": f"Break down '{query}' into 3 actionable steps."},
+                {"phase": "Focus Block", "action": "Begin 2-hour distraction-free work window."},
+                {"phase": "Review", "action": "Mark progress complete on AI Twin dashboard."}
             ]
 
         confidence = round(min(98.0, max(75.0, (options[0]["score"] + success_prob) / 2.0)), 1)
