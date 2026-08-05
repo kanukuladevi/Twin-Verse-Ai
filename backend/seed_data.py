@@ -114,6 +114,39 @@ def seed_database():
         db.add_all(colleges)
         db.commit()
 
+    # Seed Default User Accounts & Twin Profiles for fresh setup / new PC
+    if db.query(app.models.User).count() == 0:
+        from app.routers.auth import get_password_hash
+        hashed_pwd = get_password_hash("password123")
+        
+        default_users = [
+            app.models.User(name="Student User", email="student@aitwin.com", hashed_password=hashed_pwd),
+            app.models.User(name="Test User", email="test_user_eval@aitwin.com", hashed_password=hashed_pwd)
+        ]
+        db.add_all(default_users)
+        db.commit()
+
+        for u in default_users:
+            db.refresh(u)
+            twin_profile = app.models.TwinProfile(
+                user_id=u.id,
+                primary_domain="education",
+                goals=["Become a Data Analyst / AI Engineer", "Maintain physical health", "Grow personal savings"],
+                interests=["Technology", "Data Analytics", "AI", "Reading"],
+                strengths=["Problem Solving", "Mathematics", "Python"],
+                budget="Medium",
+                job_preference="Private",
+                education_memory={"stream": "MPC", "target_degree": "B.Tech Data Science", "entrance_exam": "EAMCET"},
+                health_memory={"age": 20, "gender": "Female", "blood_group": "O+", "allergies": ["Penicillin"]},
+                business_memory={"type": "E-Commerce Retail", "monthly_revenue": 15000},
+                personal_memory={"study_streak_days": 5, "sleep_average_hrs": 7.5},
+                content_memory={"niche": "Tech & AI", "platform": "Instagram Reels"},
+                customer_memory={"preferred_language": "English", "satisfaction_score": "High"}
+            )
+            db.add(twin_profile)
+        db.commit()
+        print("[OK] Default test users (student@aitwin.com & test_user_eval@aitwin.com) seeded successfully!")
+
     db.close()
     print("[OK] Database tables created & seed data inserted successfully!")
 
